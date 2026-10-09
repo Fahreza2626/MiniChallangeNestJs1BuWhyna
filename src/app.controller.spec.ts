@@ -14,9 +14,14 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+  describe('checkBilangan', () => {
+    it('should return bilangan 12 dengan benar', () => {
+      expect(appController.checkBilangan('12')).toEqual({
+        angka: 12,
+        jenis: 'genap',
+        kuadrat: 144,
+        kelipatanLima: false,
+      });
     });
   });
 });
