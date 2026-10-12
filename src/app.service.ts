@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { KasirItemDto } from './dto/soal-5.dto.js';
 
 @Injectable()
 export class AppService {
@@ -151,10 +152,15 @@ hitungNilaiRapor(
 hitungKasir(
   member: string, 
   metode: string, 
-  items: any[], 
+  items: KasirItemDto[], 
 ) {
 
-  const rincian: any[] = [];
+  const rincian: {
+    nama: string;
+    harga: number;
+    qty: number;
+    subtotal: number;
+  }[] = [];
 
   let subtotal = 0;
 

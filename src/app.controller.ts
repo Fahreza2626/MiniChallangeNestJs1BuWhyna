@@ -9,6 +9,18 @@ import {
 } from '@nestjs/common';
 
 import { AppService } from './app.service.js';
+import { CheckBilanganDto } from './dto/soal-1.dto.js';
+import { KonversiSuhuDto } from './dto/soal-2.dto.js';
+import {
+  GeneratorDeretParamsDto,
+  GeneratorDeretQueryDto,
+} from './dto/soal-3.dto.js';
+import { HitungNilaiRaporDto } from './dto/soal-4.dto.js';
+import {
+  HitungKasirDto,
+  KasirParamsDto,
+  KasirQueryDto,
+} from './dto/soal-5.dto.js';
 
 @Controller()
 export class AppController {
@@ -19,7 +31,8 @@ export class AppController {
   // =========================
   
   @Get('bilangan/:angka')
-  checkBilangan(@Param('angka') angka: string) {
+  checkBilangan(@Param() params: CheckBilanganDto) {
+    const { angka } = params;
     const nilai = Number(angka);
 
     if (
@@ -41,11 +54,8 @@ export class AppController {
   // =========================
 
   @Get('suhu/konversi')
-  konversiSuhu(
-    @Query('nilai') nilai: string,
-    @Query('dari') dari: string,
-    @Query('ke') ke: string,
-  ) {
+  konversiSuhu(@Query() query: KonversiSuhuDto) {
+    const { nilai, dari, ke } = query;
     // Semua query wajib diisi
     if (!nilai || !dari || !ke) {
       throw new BadRequestException(
@@ -95,9 +105,11 @@ export class AppController {
 
   @Get('deret/:jenis')
   generatorDeret(
-    @Param('jenis') jenis: string,
-    @Query('jumlah') jumlah: string,
+    @Param() params: GeneratorDeretParamsDto,
+    @Query() query: GeneratorDeretQueryDto,
   ) {
+    const { jenis } = params;
+    const { jumlah } = query;
     const jenisValid = [
       'ganjil',
       'genap',
@@ -140,7 +152,7 @@ export class AppController {
   // =========================
 
   @Post('nilai/hitung')
-  hitungNilaiRapor(@Body() body: any) {
+  hitungNilaiRapor(@Body() body: HitungNilaiRaporDto) {
     const {
       nama,
       tugas,
@@ -212,10 +224,12 @@ export class AppController {
 
   @Post('kasir/checkout/:member')
   hitungKasir(
-    @Param('member') member: string,
-    @Query('metode') metode: string,
-    @Body() body: any,
+    @Param() params: KasirParamsDto,
+    @Query() query: KasirQueryDto,
+    @Body() body: HitungKasirDto,
   ) {
+    const { member } = params;
+    const { metode } = query;
     const memberLower = member.toLowerCase();
     const metodeLower = metode?.toLowerCase();
 

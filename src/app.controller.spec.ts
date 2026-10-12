@@ -16,7 +16,7 @@ describe('AppController', () => {
 
   describe('checkBilangan', () => {
     it('should return bilangan 12 dengan benar', () => {
-      expect(appController.checkBilangan('12')).toEqual({
+      expect(appController.checkBilangan({ angka: '12' })).toEqual({
         angka: 12,
         jenis: 'genap',
         kuadrat: 144,
